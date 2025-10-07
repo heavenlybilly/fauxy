@@ -1,0 +1,34 @@
+version: '3'
+
+tasks:
+  default:
+    silent: true
+    desc: "Show list of all available Taskfile commands"
+    cmds:
+      - task --list --color
+
+  build:
+    desc: "Build Docker image"
+    cmds:
+      - docker build --no-cache -t playground-vapimock182 .
+
+  down:
+    desc: "Stop and remove playground container"
+    cmds:
+      - docker stop playground-vapimock182-app
+      - docker rm playground-vapimock182-app
+
+  up:
+    desc: "Start playground container"
+    cmds:
+      - docker start playground-vapimock182-app || docker run -d --name playground-vapimock182-app -p 5173:5173 -v ${PWD}:/app playground-vapimock182
+
+  logs:
+    desc: "Follow logs from the playground container with tail output"
+    cmds:
+      - docker logs -f --tail 100 playground-vapimock182-app
+
+  bash:
+    desc: "Open interactive shell session inside the running playground container"
+    cmds:
+      - docker exec -it playground-vapimock182-app sh
