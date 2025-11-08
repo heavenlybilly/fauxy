@@ -1,7 +1,7 @@
 # Fauxy
 
 Fauxy is a lightweight wrapper around **faker.js** and **MSW** (Mock Service Worker), designed to simplify mocking data
-and API requests for both front-end and back-end development. MSW is used as-is (imported directly from the package),
+and API requests for front-end development. MSW is used as-is (imported directly from the package),
 while Faker is wrapped with a special API that adds some convenience helpers and customizations. I created Fauxy
 primarily for my own convenience, but I hope it can be useful to others as well.
 
@@ -25,7 +25,7 @@ To ensure MSW knows where to find the service worker, add the following section 
 "msw": {
     "workerDirectory": [
     "public"
-]
+  ]
 }
 ```
 
@@ -104,4 +104,4 @@ const date = fake(fm.date.between, { from: '2025-11-01', to: '2025-11-10' }).cre
 
 - Fauxy uses MSW directly from its package, so you can access all MSW features as usual.
 - Faker is only available via Fauxy’s wrapper, which adds convenience methods and some custom enhancements.
-- For more advanced usage and configuration, check out the official MSW repository￼.
+- For more advanced usage and configuration, check out the official MSW repository.
