@@ -26,6 +26,7 @@ module.exports = {
   rules: {
     'import/no-unresolved': ['error', { ignore: ['\\.svg\\$'] }],
     'import/prefer-default-export': 'off',
+    'camelcase': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

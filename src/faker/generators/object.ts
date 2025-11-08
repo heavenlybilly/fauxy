@@ -1,11 +1,11 @@
-import { Faker } from '@/faker/faker'
-import { ObjectFakerConfig } from '../types'
+import { FakerWrapper } from '@/faker/fakerWrapper'
+import { ObjectFakerWrapperConfig } from '../types'
 
-export const generateObject = (config: ObjectFakerConfig) => {
+export const generateObject = (config: ObjectFakerWrapperConfig) => {
   return Object.keys(config.properties).reduce((carry, propertyName) => {
     const propertyValue = config.properties[propertyName]
 
-    const value = propertyValue instanceof Faker ? propertyValue.create() : propertyValue
+    const value = propertyValue instanceof FakerWrapper ? propertyValue.create() : propertyValue
 
     return {
       ...carry,

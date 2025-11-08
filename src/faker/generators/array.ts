@@ -1,7 +1,7 @@
 import { makeCount } from '@/faker/utils'
-import { ArrayFakerConfig } from '../types'
+import { ArrayFakerWrapperConfig } from '../types'
 
-export const generateArray = (config: ArrayFakerConfig) => {
+export const generateArray = (config: ArrayFakerWrapperConfig) => {
   return Array(makeCount(config.count))
     .fill(null)
     .map(() => {

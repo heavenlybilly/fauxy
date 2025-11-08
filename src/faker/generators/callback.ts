@@ -1,5 +1,5 @@
-import { CallbackFakerConfig } from '../types'
+import { CallbackFakerWrapperConfig } from '../types'
 
-export const generateCallback = (config: CallbackFakerConfig) => {
+export const generateUsingCallback = (config: CallbackFakerWrapperConfig) => {
   return config.callback()
 }

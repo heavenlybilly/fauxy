@@ -1,4 +1,4 @@
-import { Faker } from './faker'
+import { FakerWrapper } from './fakerWrapper'
 
 /**
  * Utils
@@ -13,109 +13,41 @@ export type Count =
 /**
  * Mock config
  */
-export type FakerType =
-  | 'uuid'
-  | 'boolean'
-  | 'words'
-  | 'number'
-  | 'url'
-  | 'fullName'
-  | 'date'
-  | 'personalNumber'
-  | 'rank'
-  | 'arrayElement'
-  | 'arrayElements'
-  | 'callback'
-  | 'array'
-  | 'object'
+export type FakerWrapperType = 'callback' | 'array' | 'object' | 'instance'
 
-interface BaseFakerConfig {
-  type: FakerType
+interface BaseFakerWrapperConfig {
+  type: FakerWrapperType
 }
 
-export interface UuidFakerConfig extends BaseFakerConfig {
-  type: 'uuid'
-}
-
-export interface BooleanFakerConfig extends BaseFakerConfig {
-  type: 'boolean'
-}
-
-export interface WordsFakerConfig extends BaseFakerConfig {
-  type: 'words'
-  count?: Count
-}
-
-export interface NumberFakerConfig extends BaseFakerConfig {
-  type: 'number'
-  min?: number
-  max?: number
-}
-
-export interface UrlFakerConfig extends BaseFakerConfig {
-  type: 'url'
-}
-
-export interface DateFakerConfig extends BaseFakerConfig {
-  type: 'date'
-}
-
-export interface FullNameFakerConfig extends BaseFakerConfig {
-  type: 'fullName'
-}
-
-export interface PersonalNumberFakerConfig extends BaseFakerConfig {
-  type: 'personalNumber'
-}
-
-export interface RankFakerConfig extends BaseFakerConfig {
-  type: 'rank'
-}
-
-export interface ArrayElementFakerConfig extends BaseFakerConfig {
-  type: 'arrayElement'
-  items: unknown[]
-}
-
-export interface ArrayElementsFakerConfig extends BaseFakerConfig {
-  type: 'arrayElements'
-  items: unknown[]
-  count?: Count
-}
-
-export interface CallbackFakerConfig extends BaseFakerConfig {
+export interface CallbackFakerWrapperConfig extends BaseFakerWrapperConfig {
   type: 'callback'
   callback: (...args: unknown[]) => any
 }
 
-export interface ArrayFakerConfig extends BaseFakerConfig {
+export interface ArrayFakerWrapperConfig extends BaseFakerWrapperConfig {
   type: 'array'
-  items: Faker<any>
+  items: FakerWrapper<any>
   count: Count
 }
 
-export interface ObjectFakerConfig<O extends Record<string, any> = Record<string, any>>
-  extends BaseFakerConfig {
+export interface ObjectFakerWrapperConfig<O extends Record<string, any> = Record<string, any>>
+  extends BaseFakerWrapperConfig {
   type: 'object'
   properties: {
-    [_ in keyof O]: Faker<any> | any
+    [_ in keyof O]: FakerWrapper<any> | any
   }
 }
 
-export type FakerConfig =
-  | UuidFakerConfig
-  | BooleanFakerConfig
-  | WordsFakerConfig
-  | NumberFakerConfig
-  | UrlFakerConfig
-  | FullNameFakerConfig
-  | DateFakerConfig
-  | PersonalNumberFakerConfig
-  | RankFakerConfig
-  | ArrayElementFakerConfig
-  | ArrayElementsFakerConfig
-  | CallbackFakerConfig
-  | ArrayFakerConfig
-  | ObjectFakerConfig
+export interface InstanceFakerWrapperConfig extends BaseFakerWrapperConfig {
+  type: 'instance'
+  callback: () => unknown
+  args: unknown[]
+}
 
-export type ExtractFakerConfig<T extends FakerType> = Extract<FakerConfig, { type: T }>
+export type FakerConfig =
+  | CallbackFakerWrapperConfig
+  | ArrayFakerWrapperConfig
+  | ObjectFakerWrapperConfig
+  | InstanceFakerWrapperConfig
+
+export type ExtractFakerConfig<T extends FakerWrapperType> = Extract<FakerConfig, { type: T }>
