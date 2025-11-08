@@ -10,25 +10,25 @@ tasks:
   build:
     desc: "Build Docker image"
     cmds:
-      - docker build --no-cache -t playground-vapimock182 .
+      - docker build --no-cache -t fauxy .
 
   down:
     desc: "Stop and remove playground container"
     cmds:
-      - docker stop playground-vapimock182-app
-      - docker rm playground-vapimock182-app
+      - docker stop fauxy-app
+      - docker rm fauxy-app
 
   up:
     desc: "Start playground container"
     cmds:
-      - docker start playground-vapimock182-app || docker run -d --name playground-vapimock182-app -p 5173:5173 -v ${PWD}:/app playground-vapimock182
+      - docker start fauxy-app || docker run -d --name fauxy-app -p 5173:5173 -v ${PWD}:/app fauxy
 
   logs:
     desc: "Follow logs from the playground container with tail output"
     cmds:
-      - docker logs -f --tail 100 playground-vapimock182-app
+      - docker logs -f --tail 100 fauxy-app
 
   bash:
     desc: "Open interactive shell session inside the running playground container"
     cmds:
-      - docker exec -it playground-vapimock182-app sh
+      - docker exec -it fauxy-app sh

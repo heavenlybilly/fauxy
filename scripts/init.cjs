@@ -9,12 +9,17 @@ const colors = {
   reset: '\x1b[0m'
 };
 
-const sourceSwPath = path.join(__dirname, '../node_modules/msw/lib/mockServiceWorker.js');
+const sourceSwPath = path.join(__dirname, './mockServiceWorker.js');
 const targetSwPath = path.join(process.cwd(), 'public/mockServiceWorker.js');
+
+console.warn(
+  '\x1b[33m⚠️  This package uses MSW (https://github.com/mswjs/msw). ' +
+  'For more details and advanced usage, please visit the official repository.\x1b[0m'
+);
 
 try {
   if (!fs.existsSync(sourceSwPath)) {
-    console.error(colors.error + '❌  Mock Service Worker not found' + colors.reset);
+    console.error(colors.error + '❌  mockServiceWorker.js not found' + colors.reset);
     process.exit(0);
   }
 
