@@ -33,6 +33,36 @@ export const fakerModules = {
   vehicle: initialInstance.vehicle,
   word: initialInstance.word,
 }
+export type FakerModules = Pick<
+  Faker,
+  | 'airline'
+  | 'animal'
+  | 'book'
+  | 'color'
+  | 'commerce'
+  | 'company'
+  | 'database'
+  | 'datatype'
+  | 'date'
+  | 'finance'
+  | 'food'
+  | 'git'
+  | 'hacker'
+  | 'helpers'
+  | 'image'
+  | 'internet'
+  | 'location'
+  | 'lorem'
+  | 'music'
+  | 'number'
+  | 'person'
+  | 'phone'
+  | 'science'
+  | 'string'
+  | 'system'
+  | 'vehicle'
+  | 'word'
+>
 
 const buildModules = (locale: Locale) => {
   const newInstance = new Faker({ locale: [locales[locale], locales.en, locales.base] })
