@@ -1,6 +1,6 @@
 {
   "name": "fauxy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A package for mocking data and API requests",
   "license": "MIT",
   "homepage": "https://github.com/heavenlybilly/fauxy",
