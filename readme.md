@@ -100,6 +100,77 @@ const persons = fake()
 const date = fake(fm.date.between, { from: '2025-11-01', to: '2025-11-10' }).create()
 ```
 
+## Page handlers (mocking pages by URL)
+
+Fauxy also provides a small helper to run custom logic when the current browser URL
+matches a given pattern. This is useful when you want to "mock" pages themselves
+(e.g. inject data into `window` or global state based on the URL), not just API calls.
+
+### Basic usage
+
+```ts
+import { page, mockPage } from 'fauxy'
+
+// Define your page handlers
+const handlers = [
+  // Match a specific person edit page by dynamic route parameter
+  page('/person/:personId/edit', ({ params, queryParams, hash, url }) => {
+    // Route params from the path
+    // Example: '/person/252/edit' -> { personId: '252' }
+    console.log(params.personId)
+
+    // Query params from the URL
+    // Example: '/person/252/edit?logo=26&tag=a&tag=b'
+    // -> { logo: '26', tag: ['a', 'b'] }
+    console.log(queryParams.logo)
+
+    // Hash fragment without '#'
+    // Example: '/person/252/edit#section-1' -> 'section-1'
+    console.log(hash)
+
+    // Full URL object
+    console.log(url.href)
+
+    // You can mock any global values here
+    ;(window as any).__MOCKED_PERSON_ID__ = params.personId
+  }),
+
+  // Match any path under /files/ using a trailing wildcard
+  page('/files/*', ({ url }) => {
+    console.log('Files page matched:', url.pathname)
+  }),
+]
+
+// Call mockPage after your app has been rendered and the browser environment is ready
+mockPage(handlers)
+```
+
+### How matching works
+
+- Only the **pathname** is used for matching patterns.
+  - Example: `/person/252/edit?logo=26#section1` is matched against `/person/:personId/edit`.
+- Supported pattern features:
+  - Static segments: `/dashboard`, `/person/edit`
+  - Named params: `/person/:personId/edit`, `/user/:id/posts/:postId`
+  - Trailing wildcard: `/files/*` (matches `/files/123`, `/files/a/b/c`, etc.)
+- Query string (`?foo=bar`) and hash (`#section`) do **not** affect matching,
+  but they are passed to the handler callback as:
+  - `queryParams`: `Record<string, string | string[]>`
+  - `hash`: `string` (without `#`)
+
+### When to call `mockPage`
+
+`mockPage` does not attach any listeners and does not observe route changes.
+It simply:
+
+1. Reads the current `window.location.href`.
+2. Matches it against all provided handlers.
+3. Synchronously calls callbacks of all matched handlers.
+
+You should call it at the moment when your page is already loaded and
+JavaScript can safely modify global state (for example, right after your app
+bootstraps).
+
 ## Notes
 
 - Fauxy uses MSW directly from its package, so you can access all MSW features as usual.
